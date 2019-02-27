@@ -1,0 +1,141 @@
+package password_authentication;
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+public class Password_authentication {
+public static final int min_length = 6;
+public static final int max_length=12;
+public static int reject=0;
+public static void main (String[] args) {
+    Scanner in=new Scanner(System.in);
+    System.out.println("Enter the password string");
+    String str=in.nextLine();
+    String[]arr=str.split(",");
+     int j,n;
+     n=arr.length;
+     for(j=0;j<n;j++)
+     {
+         System.out.println(arr[j]);
+     }
+     for(j=0;j<n;j++)
+    {
+       if(is_valid(arr[j]))
+    {
+        System.out.println(arr[j]+" "+"Success");
+    }
+       reject=0;
+    }
+	   
+	}
+	public static boolean is_valid(String password)
+	{
+	    int len=password.length();
+	    if(len<min_length)
+	    {
+	        System.out.println(password+" "+"Failure Password must be at least 6 characters long");
+                return false; 
+	    }
+	    else if(len>max_length)
+	    {
+	        System.out.println(password+" "+"Failure Password must be at most 12 characters long");
+                return false;
+                
+	    }
+	    int i,numcount=0,clcount=0,cscount=0,scount=0;
+	    for(i=0;i<password.length();i++)
+	    {
+	        char ch=password.charAt(i);
+	        if(is_numeric(ch))
+	        {
+	            numcount++;
+	        }
+	        else if(is_ULetter(ch))
+	        {
+	            clcount++;
+	        }
+	         else if(is_Letter(ch))
+	        {
+	            cscount++;
+	        }
+	        else if(is_special(ch))
+	        {
+	           
+	            scount++;
+	        }
+	        if(reject==1)
+	        {
+	            System.out.println(password+" "+"Password cannot contain %!)(");
+	            return false;
+	        }
+	        
+	    }
+            
+	   if(numcount>=1 && clcount>=1 && cscount>=1 && scount>=1 )
+	   {
+	       return true;
+	   }
+	   else{
+               
+	        if(cscount<1)
+	       {
+	            System.out.println(password+" "+"Failure Password must contain at least one letter from a-z");
+	            return false;
+	       }
+               else  if(numcount<1)
+	       {
+	           System.out.println(password+" "+"Failure Password must contain at least one letter from 0-9");
+	           return false;
+	       }
+	      
+                else if(clcount<1)
+	       {
+	            System.out.println(password+" "+"Failure Password must contain at least one letter from A-Z");
+	            return false;
+	       }
+	       else if(scount<1)
+	       {
+	            System.out.println(password+" "+"Failure Password must contain at least one letter from *$_#=@");
+	            return false;
+	       }
+	       
+	   }
+	   return true;
+	}
+	public static boolean is_ULetter(char ch) {
+        int x=(int)ch;
+        if(x>=65 && x<=90)
+        {
+            return true;
+        }
+        return false;
+    }
+    public static boolean is_Letter(char ch) {
+     int x=(int)ch;
+        if(x>=97 && x<=122)
+        {
+            return true;
+        }
+        return false;
+        
+    }
+
+
+    public static boolean is_numeric(char ch) {
+
+        return (ch >= '0' && ch <= '9');
+    }
+    public static boolean is_special(char ch) {
+
+       int x=(int)ch;
+       if(x==33||x==37||x==40||x==41)
+       {
+           reject=1;
+           return false;
+       }
+       else if(x==42||x==36||x==64||x==35||x==61||x==95)
+       {
+           return true;
+       }
+       return false;
+    }
+    }
